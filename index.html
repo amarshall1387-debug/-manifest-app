@@ -1,111 +1,457 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080808"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="MANIFEST"><link rel="manifest" href="manifest.json">
-<title>MANIFEST — Think it. Feel it. Become it.</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#080808" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MANIFEST" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon.svg" />
+  <title>MANIFEST — Become It</title>
+  <style>
+    :root{
+      --bg:#070707; --bg2:#0c0b09; --card:#11110f; --card2:#17150f;
+      --text:#f6f1e6; --muted:#8f8b82; --gold:#d7b468; --gold2:#f0d59b;
+      --line:#29271f; --danger:#cf6e6e; --ok:#86b98b;
+      --safe-top:max(16px,env(safe-area-inset-top));
+      --safe-bottom:max(10px,env(safe-area-inset-bottom));
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#030303;color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{min-height:100vh}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .app{
+      width:min(100%,560px); min-height:100vh; margin:0 auto;
+      background:
+        radial-gradient(circle at 75% 0%,rgba(215,180,104,.13),transparent 28%),
+        radial-gradient(circle at 5% 22%,rgba(104,82,42,.08),transparent 20%),
+        linear-gradient(180deg,#080808,#050505 70%);
+      box-shadow:0 0 90px #000;
+      padding-bottom:96px;
+      position:relative;
+    }
+    header{
+      position:sticky;top:0;z-index:20;
+      height:calc(68px + var(--safe-top)); padding:var(--safe-top) 20px 0;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(7,7,7,.88);backdrop-filter:blur(18px);border-bottom:1px solid #151515;
+    }
+    .brand{font-weight:900;letter-spacing:.18em;font-size:14px}.brand i{font-style:normal;color:var(--gold)}
+    .header-pill{font-size:11px;color:#d6d0c4;border:1px solid #302c22;background:#11100c;padding:8px 10px;border-radius:99px}
+    main{padding:26px 20px 20px}
+    .screen{display:none;animation:fade .22s ease}.screen.active{display:block}
+    @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+    .eyebrow{font-size:10px;font-weight:900;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+    h1{font-family:Georgia,"Times New Roman",serif;font-size:40px;line-height:1.02;margin:0 0 12px;font-weight:600;letter-spacing:-.025em}
+    h1 span,h2 span{color:var(--gold)}
+    h2{font-family:Georgia,"Times New Roman",serif;font-size:27px;line-height:1.28;font-weight:500;margin:10px 0 16px}
+    h3{font-size:15px;margin:0 0 5px}
+    p{line-height:1.6}.muted{color:var(--muted)}
+    .hero,.panel,.ritual-card,.future-card,.program-card{
+      border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#181711,#0c0c0b);
+    }
+    .hero{padding:25px;margin:24px 0;position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(215,180,104,.1);filter:blur(40px);right:-60px;top:-65px}
+    .primary,.secondary,.ghost,.danger{
+      width:100%;border-radius:14px;padding:16px 17px;font-weight:900;letter-spacing:.04em;border:0;
+    }
+    .primary{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#151106;box-shadow:0 8px 24px rgba(215,180,104,.12)}
+    .secondary{background:#15130d;color:var(--gold2);border:1px solid #493e27}
+    .ghost{background:#0d0d0c;color:#d8d3c8;border:1px solid #26241e}
+    .danger{background:#1a1010;color:#e1a1a1;border:1px solid #4b2929}
+    .row{display:flex;gap:10px}.row>*{flex:1}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .quick{
+      padding:17px;text-align:left;border:1px solid var(--line);border-radius:18px;background:#10100f;color:var(--text);min-height:108px
+    }
+    .quick .icon{font-size:24px;display:block;margin-bottom:18px}.quick small{display:block;color:#78746c;margin-top:5px;line-height:1.35}
+    .quote{text-align:center;color:#726e65;font-family:Georgia,serif;font-style:italic;font-size:17px;line-height:1.5;margin:30px 14px}
+    .field{margin:17px 0}
+    label{display:block;font-size:11px;font-weight:800;color:#aaa49a;margin-bottom:8px}
+    input,textarea,select{
+      width:100%;background:#0d0d0c;color:var(--text);border:1px solid #2a2822;border-radius:14px;padding:14px;outline:0
+    }
+    input:focus,textarea:focus,select:focus{border-color:#6f5b32}
+    textarea{min-height:120px;resize:vertical;line-height:1.55}
+    .journal{min-height:300px}
+    .chips{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .chip{padding:13px 11px;border-radius:13px;background:#0f0f0e;color:#d8d2c7;border:1px solid #28261f;text-align:left}
+    .chip.selected{border-color:#a48449;background:#1b1710;color:#f4dfb2}
+    .profile-card{display:flex;align-items:center;gap:13px;padding:17px;border:1px solid var(--line);border-radius:18px;background:#10100f;margin:20px 0}
+    .avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#111;font-weight:900;font-size:18px}
+    .profile-card small{display:block;color:#77736a;margin-top:4px}
+    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 22px}
+    .stat{border:1px solid #24231e;border-radius:15px;background:#0e0e0d;padding:15px 10px;text-align:center}
+    .stat b{display:block;font-size:22px;color:var(--gold)}.stat small{font-size:9px;color:#777;letter-spacing:.08em}
+    .setting{display:flex;justify-content:space-between;gap:12px;padding:16px 2px;border-bottom:1px solid #1c1b18}.setting b{color:var(--gold);font-size:12px;text-align:right}
+    .stepper{height:5px;background:#1a1916;border-radius:99px;overflow:hidden;margin:8px 0 24px}.stepper i{height:100%;display:block;background:var(--gold);width:16.6%;transition:.25s}
+    .ritual-card{text-align:center;padding:28px 23px 25px;min-height:510px;display:flex;flex-direction:column;justify-content:center}
+    .orb{width:105px;height:105px;border-radius:50%;margin:0 auto 30px;background:radial-gradient(circle,#f3daa2 0,#b28b45 28%,rgba(173,128,53,.16) 58%,transparent 69%);box-shadow:0 0 75px rgba(215,180,104,.34);animation:breathe 5s infinite ease-in-out}
+    @keyframes breathe{50%{transform:scale(1.09);box-shadow:0 0 100px rgba(215,180,104,.48)}}
+    .ritual-actions{margin-top:24px;display:grid;gap:9px}
+    .progress-ring{width:180px;height:180px;border-radius:50%;margin:28px auto;display:grid;place-items:center;background:conic-gradient(var(--gold) calc(var(--p)*1%),#1c1b17 0);position:relative}
+    .progress-ring:before{content:"";position:absolute;width:145px;height:145px;border-radius:50%;background:#0a0a09}
+    .progress-ring .inside{position:relative;text-align:center;z-index:2}.progress-ring b{font-size:42px;color:var(--gold);display:block}.progress-ring small{font-size:10px;letter-spacing:.13em;color:#777}
+    .days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin:18px 0}.day{aspect-ratio:1;border-radius:10px;border:1px solid #24231f;background:#10100f;display:grid;place-items:center;font-size:10px;color:#69655e}.day.done{background:#5f4b28;border-color:#8a6e38;color:#fff1cb}
+    .badge-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.badge{padding:16px 8px;border-radius:15px;border:1px solid #28261f;background:#10100f;text-align:center}.badge b{display:block;color:var(--gold);font-size:22px}.badge small{font-size:9px;color:#777}
+    .future-card{padding:23px;margin-top:20px}.future-preview{white-space:pre-wrap;color:#d7d0c5;line-height:1.65}
+    .program-card{padding:18px;margin:10px 0;display:flex;justify-content:space-between;gap:12px;align-items:center}.program-card span{font-size:25px}.program-card small{display:block;color:#78746b;margin-top:5px}.lock{color:#8b7444;font-size:12px;font-weight:900}
+    .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);width:min(88%,460px);padding:12px 15px;border-radius:13px;background:#ece0c3;color:#19150e;font-weight:800;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:80}.toast.show{opacity:1;transform:translateX(-50%)}
+    nav{
+      position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:50;
+      width:min(100%,560px);height:calc(76px + var(--safe-bottom));padding-bottom:var(--safe-bottom);
+      display:grid;grid-template-columns:repeat(5,1fr);background:rgba(8,8,8,.94);backdrop-filter:blur(18px);border-top:1px solid #201f1b
+    }
+    .nav-btn{border:0;background:transparent;color:#666159;font-size:19px;padding-top:11px}.nav-btn small{display:block;font-size:9px;margin-top:5px}.nav-btn.active{color:var(--gold)}
+    .hidden{display:none!important}
+    .tiny{font-size:10px;color:#6e6a62}
+    .completed{border-color:#416044!important;background:#0e1710!important}
+    .install{position:fixed;right:14px;bottom:100px;z-index:75;border:1px solid #5c4b2b;border-radius:99px;background:#15120c;color:var(--gold2);padding:10px 13px;font-size:10px;font-weight:900}
+  </style>
 </head>
 <body>
-<div class="app-shell">
-  <header class="topbar">
-    <div class="brand">MANIFEST<span>✦</span></div><button id="installBtn" class="install-btn" hidden>INSTALL APP</button>
-    <div class="streak">🔥 <b id="streak">12</b> day streak</div>
-  </header>
+<div class="app">
+<header>
+  <div class="brand">MANIFEST<i>✦</i></div>
+  <div class="header-pill">🔥 <span id="headerStreak">0</span> day streak</div>
+</header>
 
-  <main>
-    <section id="today" class="screen active">
-      <div class="eyebrow">MONDAY • AUGUST 10</div>
-      <h1>Good evening, <span>Arin.</span></h1>
-      <p class="muted">A few intentional minutes can change the way you show up tomorrow.</p>
-
-      <div class="hero-card">
-        <div class="card-glow"></div>
-        <div class="eyebrow">TODAY'S MANIFESTATION</div>
-        <h2 id="dailyManifestation">I am capable of creating extraordinary results. I trust my decisions, take action with confidence, and recognize opportunities when they appear.</h2>
-        <button class="primary" onclick="startSession()">BEGIN MY 5-MINUTE MANIFESTATION <span>→</span></button>
+<main>
+  <section id="onboarding" class="screen">
+    <div class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</div>
+    <h1>Become the person who <span>creates the life.</span></h1>
+    <p class="muted">MANIFEST combines intention, visualization, affirmations and one meaningful action every day.</p>
+    <div class="field"><label>FIRST NAME</label><input id="onboardName" placeholder="Your name"></div>
+    <div class="field"><label>WHAT ARE YOU BUILDING?</label>
+      <div id="onboardFocus" class="chips">
+        <button class="chip selected" data-focus="Wealth">💰 Wealth</button><button class="chip" data-focus="Career">🚀 Career</button>
+        <button class="chip" data-focus="Confidence">🧠 Confidence</button><button class="chip" data-focus="Discipline">🔥 Discipline</button>
+        <button class="chip" data-focus="Relationships">❤️ Relationships</button><button class="chip" data-focus="Peace">🧘 Peace</button>
       </div>
+    </div>
+    <div class="field"><label>DESCRIBE THE FUTURE YOU WANT</label><textarea id="onboardGoal" placeholder="Example: I want financial freedom, meaningful work and more control over my time."></textarea></div>
+    <button class="primary" onclick="finishOnboarding()">CREATE MY DAILY RITUAL →</button>
+  </section>
 
-      <div class="grid2">
-        <button class="tile" onclick="showScreen('manifest')"><span>✨</span><b>Manifest</b><small>Create a personalized session</small></button>
-        <button class="tile" onclick="showScreen('journal')"><span>📓</span><b>Journal</b><small>Put your future into words</small></button>
+  <section id="today" class="screen">
+    <div class="eyebrow" id="todayDate">TODAY</div>
+    <h1><span id="greeting">Good morning</span>, <span id="todayName">friend.</span></h1>
+    <p class="muted">You don't need the whole path. You need today's decision.</p>
+
+    <div class="hero">
+      <div class="eyebrow">TODAY'S MANIFESTATION</div>
+      <h2 id="dailyManifest">I trust myself to recognize opportunity and take action before doubt takes over.</h2>
+      <button class="primary" onclick="startRitual()">BEGIN MY 5-MINUTE RITUAL →</button>
+    </div>
+
+    <div class="grid">
+      <button class="quick" onclick="show('create')"><span class="icon">✨</span><b>Create</b><small>Build a goal-specific manifestation</small></button>
+      <button class="quick" onclick="show('future')"><span class="icon">🔮</span><b>Future Me</b><small>Rehearse the life you're creating</small></button>
+      <button class="quick" onclick="show('action')"><span class="icon">🎯</span><b>Today's Move</b><small>Turn intention into movement</small></button>
+      <button class="quick" onclick="show('journal')"><span class="icon">📓</span><b>Journal</b><small>Capture gratitude and direction</small></button>
+    </div>
+    <div class="quote">“Your future changes when today's choices start matching tomorrow's vision.”</div>
+  </section>
+
+  <section id="ritual" class="screen">
+    <div class="eyebrow">MORNING RITUAL</div>
+    <div class="stepper"><i id="ritualProgress"></i></div>
+    <div class="ritual-card">
+      <div id="ritualOrb" class="orb"></div>
+      <div class="eyebrow" id="ritualLabel">BREATHE</div>
+      <h2 id="ritualText">Take a slow breath in. Hold it. Let it go.</h2>
+      <p class="muted" id="ritualSub">Lower the noise before you choose the direction.</p>
+      <div class="ritual-actions">
+        <button class="primary" id="ritualNext" onclick="nextRitual()">I'M READY →</button>
+        <button class="ghost" onclick="show('today')">EXIT SESSION</button>
       </div>
+    </div>
+  </section>
 
-      <div class="quote">“The life you want begins with the person you decide to become.”</div>
-    </section>
+  <section id="create" class="screen">
+    <div class="eyebrow">PERSONAL MANIFEST</div>
+    <h1>Put your future <span>into words.</span></h1>
+    <p class="muted">This V2 generator personalizes the language on-device. The next backend upgrade will make these fully AI-generated.</p>
+    <div class="field"><label>FOCUS</label><select id="createFocus"><option>Financial freedom</option><option>Career success</option><option>Confidence</option><option>Discipline</option><option>Relationships</option><option>Peace</option><option>Dream lifestyle</option><option>Personal growth</option></select></div>
+    <div class="field"><label>WHAT DO YOU WANT?</label><textarea id="createGoal" placeholder="I want to build a business that gives me financial freedom..."></textarea></div>
+    <button class="primary" onclick="generateManifest()">GENERATE MY MANIFESTATION →</button>
+    <div id="generatedManifest" class="future-card hidden"></div>
+  </section>
 
-    <section id="manifest" class="screen">
-      <div class="eyebrow">YOUR INTENTION</div>
-      <h1>What are you <span>calling in?</span></h1>
-      <p class="muted">Choose what you want to focus your energy and actions on.</p>
-      <div class="choices" id="choices">
-        <button onclick="choose(this,'Financial freedom')">💰 Financial freedom</button>
-        <button onclick="choose(this,'Career success')">🚀 Career success</button>
-        <button onclick="choose(this,'Confidence')">🧠 Confidence</button>
-        <button onclick="choose(this,'Health & discipline')">💪 Health & discipline</button>
-        <button onclick="choose(this,'Love & relationships')">❤️ Love & relationships</button>
-        <button onclick="choose(this,'Peace')">🧘 Peace</button>
-        <button onclick="choose(this,'Dream lifestyle')">🏡 Dream lifestyle</button>
-        <button onclick="choose(this,'Personal growth')">🌱 Personal growth</button>
-      </div>
-      <label class="field-label">Tell me what you're working toward</label>
-      <textarea id="goal" placeholder="Example: I want financial freedom and enough passive income to control my time."></textarea>
-      <button class="primary" onclick="createManifest()">CREATE MY MANIFESTATION →</button>
-      <div id="generated" class="generated hidden"></div>
-    </section>
+  <section id="future" class="screen">
+    <div class="eyebrow">FUTURE ME</div>
+    <h1>Rehearse the life <span>before you live it.</span></h1>
+    <p class="muted">Write from the perspective of yourself five years from now. Be specific enough that you can picture it.</p>
+    <div class="field"><label>LETTER FROM FUTURE YOU</label><textarea id="futureLetter" class="journal" placeholder="It's August 12, 2031. I wake up and..."></textarea></div>
+    <button class="primary" onclick="saveFuture()">SAVE FUTURE ME ✓</button>
+    <button class="secondary" style="margin-top:9px" onclick="buildFuturePrompt()">HELP ME START</button>
+    <div id="futurePreview" class="future-card hidden"><div class="eyebrow">YOUR FUTURE</div><div class="future-preview" id="futurePreviewText"></div></div>
+  </section>
 
-    <section id="session" class="screen">
-      <div class="session-head"><span id="stepLabel">STEP 1 OF 5</span><span id="timer">00:30</span></div>
-      <div class="session-card">
-        <div class="orb" id="orb"></div>
-        <div class="eyebrow" id="sessionEyebrow">BREATHE</div>
-        <h2 id="sessionText">Slow down. Take a deep breath in… and let it go.</h2>
-        <p class="muted" id="sessionSub">There is nowhere else you need to be right now.</p>
-        <button class="primary" onclick="nextStep()">I'M READY <span>→</span></button>
-      </div>
-    </section>
+  <section id="action" class="screen">
+    <div class="eyebrow">TODAY'S MOVE</div>
+    <h1>Manifestation needs <span>movement.</span></h1>
+    <div id="actionCard" class="hero">
+      <div style="font-size:34px">🎯</div>
+      <div class="eyebrow" style="margin-top:18px">ONE ACTION</div>
+      <h2 id="actionTitle">Do one thing today your future self would do without overthinking.</h2>
+      <p class="muted" id="actionBody">Start the conversation. Move the money. Submit the idea. Block the time. Momentum is evidence.</p>
+      <button class="primary" id="actionButton" onclick="completeAction()">I DID IT ✓</button>
+    </div>
+  </section>
 
-    <section id="journal" class="screen">
-      <div class="eyebrow">TODAY'S JOURNAL</div>
-      <h1>Write it as if <span>it's already yours.</span></h1>
-      <p class="muted">Describe the life you're creating. Be specific.</p>
-      <textarea class="journalbox" id="journalText" placeholder="Today I am grateful for…&#10;&#10;The person I am becoming…&#10;&#10;The life I am creating looks like…"></textarea>
-      <button class="primary" onclick="saveJournal()">SAVE ENTRY ✓</button>
-      <p id="saved" class="saved"></p>
-    </section>
+  <section id="journal" class="screen">
+    <div class="eyebrow">DAILY JOURNAL</div>
+    <h1>Give your mind <span>direction.</span></h1>
+    <div class="field"><label>GRATITUDE</label><textarea id="gratitude" placeholder="Three things that are good right now..."></textarea></div>
+    <div class="field"><label>WHAT AM I CALLING IN?</label><textarea id="callingIn" placeholder="What am I creating or becoming?"></textarea></div>
+    <div class="field"><label>WHAT WOULD FUTURE ME DO TODAY?</label><textarea id="futureAction" placeholder="One decision or action..."></textarea></div>
+    <button class="primary" onclick="saveJournal()">SAVE TODAY'S ENTRY ✓</button>
+    <p class="tiny" id="journalStatus"></p>
+  </section>
 
-    <section id="streakScreen" class="screen">
-      <div class="eyebrow">YOUR PROGRESS</div>
-      <h1>Keep <span>the promise.</span></h1>
-      <div class="streak-big">🔥 <b id="streakBig">12</b><small> DAYS</small></div>
-      <div class="calendar" id="calendar"></div>
-      <div class="milestones">
-        <div><b>7</b><small>FIRST WEEK</small></div>
-        <div><b>30</b><small>LOCKED IN</small></div>
-        <div><b>100</b><small>TRANSFORMED</small></div>
-      </div>
-    </section>
+  <section id="progress" class="screen">
+    <div class="eyebrow">YOUR PROGRESS</div>
+    <h1>Keep the <span>promise.</span></h1>
+    <div class="progress-ring" id="ring" style="--p:0"><div class="inside"><b id="bigStreak">0</b><small>DAY STREAK</small></div></div>
+    <div class="stat-grid">
+      <div class="stat"><b id="sessionCount">0</b><small>SESSIONS</small></div>
+      <div class="stat"><b id="actionCount">0</b><small>ACTIONS</small></div>
+      <div class="stat"><b id="journalCount">0</b><small>JOURNALS</small></div>
+    </div>
+    <div class="eyebrow">LAST 28 DAYS</div><div id="calendar" class="days"></div>
+    <div class="badge-row"><div class="badge"><b>7</b><small>FIRST WEEK</small></div><div class="badge"><b>30</b><small>LOCKED IN</small></div><div class="badge"><b>100</b><small>TRANSFORMED</small></div></div>
+  </section>
 
-    <section id="profile" class="screen">
-      <div class="eyebrow">YOUR MANIFEST</div>
-      <h1>Build the <span>future you.</span></h1>
-      <div class="profile-card">
-        <div class="avatar">A</div><div><b>Arin</b><small>Manifesting intentionally</small></div>
-      </div>
-      <div class="setting"><span>🔔 Daily reminder</span><b>8:00 AM</b></div>
-      <div class="setting"><span>✨ Focus</span><b>Wealth + Growth</b></div>
-      <div class="setting"><span>🔥 Streak</span><b>12 days</b></div>
-    </section>
-  </main>
+  <section id="programs" class="screen">
+    <div class="eyebrow">PROGRAMS</div><h1>Choose your <span>next chapter.</span></h1>
+    <div class="program-card"><span>💰</span><div><h3>30 Days to Wealth Mindset</h3><small>Money beliefs + intentional action</small></div><div class="lock">COMING</div></div>
+    <div class="program-card"><span>🔥</span><div><h3>Discipline Reset</h3><small>Become someone who follows through</small></div><div class="lock">COMING</div></div>
+    <div class="program-card"><span>🧠</span><div><h3>Unshakeable Confidence</h3><small>Daily self-trust practice</small></div><div class="lock">COMING</div></div>
+    <div class="program-card"><span>🌙</span><div><h3>Evening Reset</h3><small>Release today. Prime tomorrow.</small></div><div class="lock">COMING</div></div>
+  </section>
 
-  <nav class="nav">
-    <button class="navitem active" onclick="showScreen('today')">⌂<small>Today</small></button>
-    <button class="navitem" onclick="showScreen('manifest')">✦<small>Manifest</small></button>
-    <button class="navitem" onclick="showScreen('journal')">▱<small>Journal</small></button>
-    <button class="navitem" onclick="showScreen('streakScreen')">🔥<small>Streak</small></button>
-    <button class="navitem" onclick="showScreen('profile')">○<small>Profile</small></button>
-  </nav>
+  <section id="profile" class="screen">
+    <div class="eyebrow">PROFILE</div><h1>Your ritual should <span>know you.</span></h1>
+    <div class="profile-card"><div id="avatar" class="avatar">M</div><div><b id="profileName">Manifest User</b><small id="profileGoal">Building a better future</small></div></div>
+    <div class="setting"><span>✨ Primary focus</span><b id="profileFocus">Wealth</b></div>
+    <div class="setting"><span>🔥 Current streak</span><b id="profileStreak">0 days</b></div>
+    <div class="setting"><span>🔔 Morning reminder</span><b>8:00 AM · V3</b></div>
+    <div class="setting"><span>🎙 Guided voice</span><b>V3</b></div>
+    <button class="secondary" style="margin-top:22px" onclick="editProfile()">EDIT PROFILE</button>
+    <button class="danger" style="margin-top:9px" onclick="resetApp()">RESET LOCAL DATA</button>
+  </section>
+</main>
+
+<nav id="nav">
+  <button class="nav-btn active" data-screen="today" onclick="show('today')">⌂<small>Today</small></button>
+  <button class="nav-btn" data-screen="create" onclick="show('create')">✦<small>Manifest</small></button>
+  <button class="nav-btn" data-screen="journal" onclick="show('journal')">▱<small>Journal</small></button>
+  <button class="nav-btn" data-screen="progress" onclick="show('progress')">🔥<small>Progress</small></button>
+  <button class="nav-btn" data-screen="profile" onclick="show('profile')">○<small>Profile</small></button>
+</nav>
+<button id="installButton" class="install hidden">INSTALL MANIFEST</button>
+<div id="toast" class="toast">Saved</div>
 </div>
-<script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+
+<script>
+const Store={
+  get:(k,d=null)=>{try{const v=localStorage.getItem("manifest_v2_"+k);return v===null?d:JSON.parse(v)}catch{return d}},
+  set:(k,v)=>localStorage.setItem("manifest_v2_"+k,JSON.stringify(v)),
+  del:k=>localStorage.removeItem("manifest_v2_"+k)
+};
+const $=id=>document.getElementById(id);
+let focus="Wealth", ritualIndex=0, deferredPrompt=null;
+
+const daily={
+ Wealth:[
+  "I create value, recognize opportunity, and make disciplined decisions that move me toward financial freedom.",
+  "I am becoming someone who handles money with clarity, patience, and confidence.",
+  "I notice opportunities because my actions are aligned with the future I am building."
+ ],
+ Career:[
+  "I bring clarity, confidence, and value into every room. Opportunity expands when I take initiative.",
+  "I am ready for greater responsibility because I am already practicing the habits it requires.",
+  "I communicate with confidence, make strong decisions, and create measurable value."
+ ],
+ Confidence:[
+  "I trust myself to make decisions without needing perfect certainty.",
+  "I do not shrink to make uncertainty comfortable. I show up fully.",
+  "My confidence grows every time I keep a promise to myself."
+ ],
+ Discipline:[
+  "I do what matters even when motivation is quiet.",
+  "Consistency is becoming part of my identity.",
+  "I keep the promises that build the life I say I want."
+ ],
+ Relationships:[
+  "I create strong relationships through presence, honesty, appreciation, and clear communication.",
+  "I give the energy I want to receive without abandoning my own boundaries.",
+  "I notice and nurture the relationships that make life richer."
+ ],
+ Peace:[
+  "I release what I cannot control and give my energy to what I can influence.",
+  "Calm is not passivity. It is clarity without unnecessary noise.",
+  "I can want more from life without rushing through the life I have today."
+ ]
+};
+
+const ritualSteps=[
+ ["BREATHE","Take a slow breath in. Hold it. Let it go.","Lower the noise before you choose the direction."],
+ ["GROUND","I am here. I am capable. I control my next decision.","Repeat it slowly. Give the words time to land."],
+ ["AFFIRM",null,"Say today's manifestation out loud twice."],
+ ["VISUALIZE","Picture the version of you who already lives the life you're building.","Where are you? How do you carry yourself? What has become normal?"],
+ ["FUTURE YOU","What would that version of you do today?","Not someday. Today."],
+ ["ACT","Choose one action that makes the vision slightly more real.","Intention becomes powerful when it meets movement."]
+];
+
+function toast(msg){
+  $("toast").textContent=msg;$("toast").classList.add("show");
+  setTimeout(()=>$("toast").classList.remove("show"),1800);
+}
+function show(id){
+  document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+  $(id).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(x=>x.classList.toggle("active",x.dataset.screen===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(id==="progress") renderProgress();
+}
+function selectFocus(containerId){
+  $(containerId).querySelectorAll(".chip").forEach(btn=>btn.onclick=()=>{
+    $(containerId).querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));
+    btn.classList.add("selected"); focus=btn.dataset.focus;
+  });
+}
+selectFocus("onboardFocus");
+
+function finishOnboarding(){
+  const name=$("onboardName").value.trim()||"Friend";
+  const goal=$("onboardGoal").value.trim()||"I am creating a life with more freedom, confidence and intention.";
+  Store.set("profile",{name,focus,goal,created:new Date().toISOString()});
+  Store.set("onboarded",true); toast("Your ritual is ready."); hydrate(); show("today");
+}
+function editProfile(){
+  const p=Store.get("profile",{name:"Friend",focus:"Wealth",goal:""});
+  $("onboardName").value=p.name;$("onboardGoal").value=p.goal;focus=p.focus;
+  $("onboardFocus").querySelectorAll(".chip").forEach(x=>x.classList.toggle("selected",x.dataset.focus===p.focus));
+  show("onboarding");
+}
+function greeting(){
+  const h=new Date().getHours(); return h<12?"Good morning":h<18?"Good afternoon":"Good evening";
+}
+function dayKey(d=new Date()){return d.toISOString().slice(0,10)}
+function hydrate(){
+  const p=Store.get("profile",{name:"Friend",focus:"Wealth",goal:""});
+  focus=p.focus||"Wealth";
+  $("todayName").textContent=p.name+".";$("greeting").textContent=greeting();
+  $("todayDate").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}).toUpperCase();
+  const arr=daily[p.focus]||daily.Wealth;
+  const index=Math.floor(new Date().setHours(0,0,0,0)/86400000)%arr.length;
+  $("dailyManifest").textContent=arr[index];
+  $("profileName").textContent=p.name;$("profileGoal").textContent=p.goal;
+  $("profileFocus").textContent=p.focus;$("avatar").textContent=(p.name[0]||"M").toUpperCase();
+  $("futureLetter").value=Store.get("futureLetter","");
+  const j=Store.get("journalDraft",{gratitude:"",callingIn:"",futureAction:""});
+  $("gratitude").value=j.gratitude||"";$("callingIn").value=j.callingIn||"";$("futureAction").value=j.futureAction||"";
+  if(Store.get("futureLetter","")) showFuturePreview();
+  renderProgress(); renderAction();
+}
+function currentManifest(){return $("dailyManifest").textContent}
+function startRitual(){ritualIndex=0;renderRitual();show("ritual")}
+function renderRitual(){
+  let s=[...ritualSteps[ritualIndex]];
+  if(ritualIndex===2)s[1]=currentManifest();
+  $("ritualLabel").textContent=s[0];$("ritualText").textContent=s[1];$("ritualSub").textContent=s[2];
+  $("ritualProgress").style.width=((ritualIndex+1)/ritualSteps.length*100)+"%";
+  $("ritualNext").textContent=ritualIndex===ritualSteps.length-1?"COMPLETE MY RITUAL ✓":"I'M READY →";
+  $("ritualOrb").classList.toggle("hidden",ritualIndex>0);
+}
+function nextRitual(){
+  if(ritualIndex<ritualSteps.length-1){ritualIndex++;renderRitual();return}
+  const today=dayKey(); let activity=Store.get("activity",{});
+  if(!activity[today])activity[today]={}; activity[today].session=true; Store.set("activity",activity);
+  toast("Ritual complete. Keep the promise."); renderProgress(); show("today");
+}
+function generateManifest(){
+  const p=Store.get("profile",{name:"Friend",focus:"Wealth",goal:""});
+  const subject=$("createGoal").value.trim()||p.goal||$("createFocus").value;
+  const f=$("createFocus").value;
+  const text=`I am becoming the version of myself capable of creating ${subject.toLowerCase()}. I trust myself to make clear decisions, notice opportunities, and act before everything feels perfect. I practice ${f.toLowerCase()} through the choices I make today. My future is not something I wait for—it is something I build through consistent action.`;
+  $("generatedManifest").classList.remove("hidden");
+  $("generatedManifest").innerHTML='<div class="eyebrow">YOUR MANIFESTATION</div><div class="future-preview">'+escapeHtml(text)+'</div><button class="secondary" style="margin-top:18px" onclick="useGenerated()">USE IN TODAY\\'S RITUAL</button>';
+  Store.set("generatedManifest",text);
+}
+function useGenerated(){
+  $("dailyManifest").textContent=Store.get("generatedManifest",currentManifest());
+  toast("Added to today's ritual."); show("today");
+}
+function buildFuturePrompt(){
+  const p=Store.get("profile",{name:"Friend",focus:"Wealth",goal:""});
+  const starter=`It's ${new Date().getFullYear()+5}. I wake up and realize the life I once described has become normal.\n\nMy days feel different because ${p.goal || "I have built more freedom and intention into my life"}.\n\nI am proud that I became someone who...\n\nThe biggest change in how I think is...\n\nToday my life looks like...`;
+  $("futureLetter").value=starter; toast("Starter added.");
+}
+function saveFuture(){
+  Store.set("futureLetter",$("futureLetter").value.trim());showFuturePreview();toast("Future Me saved.");
+}
+function showFuturePreview(){
+  const t=Store.get("futureLetter","");if(!t)return;
+  $("futurePreviewText").textContent=t;$("futurePreview").classList.remove("hidden");
+}
+function actionCopy(){
+  const p=Store.get("profile",{focus:"Wealth"});
+  return {
+    Wealth:["Make one financial decision your future self would respect.","Automate a transfer, review one investment, cancel one unnecessary expense, or spend 15 minutes increasing your earning potential."],
+    Career:["Create visible value today.","Follow up on an opportunity, solve a neglected problem, ask for responsibility, or make your work easier to notice."],
+    Confidence:["Do one thing before you feel fully ready.","Speak first, make the call, share the idea, or make the decision without asking everyone else to validate it."],
+    Discipline:["Keep one promise exactly as planned.","Pick one commitment you've been negotiating with yourself about and complete it before the day ends."],
+    Relationships:["Invest deliberately in one relationship.","Send the message, express appreciation, plan the time, or have the conversation you've been postponing."],
+    Peace:["Remove one source of unnecessary noise.","Close the loop, set the boundary, clear the space, or give yourself 20 minutes without input."]
+  }[p.focus] || ["Take one aligned action.","Make the next move visible."];
+}
+function renderAction(){
+  const [a,b]=actionCopy();$("actionTitle").textContent=a;$("actionBody").textContent=b;
+  const done=!!(Store.get("activity",{})[dayKey()]||{}).action;
+  $("actionCard").classList.toggle("completed",done);$("actionButton").textContent=done?"COMPLETED TODAY ✓":"I DID IT ✓";
+}
+function completeAction(){
+  let a=Store.get("activity",{}); const today=dayKey();a[today]=a[today]||{};a[today].action=true;Store.set("activity",a);renderAction();renderProgress();toast("Action logged.");
+}
+function saveJournal(){
+  Store.set("journalDraft",{gratitude:$("gratitude").value,callingIn:$("callingIn").value,futureAction:$("futureAction").value});
+  let a=Store.get("activity",{}),today=dayKey();a[today]=a[today]||{};a[today].journal=true;Store.set("activity",a);
+  $("journalStatus").textContent="Saved for today.";renderProgress();toast("Journal saved.");
+}
+function streakFrom(activity){
+  let streak=0,d=new Date();
+  for(let i=0;i<400;i++){
+    const k=dayKey(d); if(activity[k]?.session){streak++;d.setDate(d.getDate()-1)} else {
+      if(i===0){d.setDate(d.getDate()-1);continue} break;
+    }
+  }
+  return streak;
+}
+function renderProgress(){
+  const activity=Store.get("activity",{}),streak=streakFrom(activity),keys=Object.keys(activity);
+  const sessions=keys.filter(k=>activity[k].session).length,actions=keys.filter(k=>activity[k].action).length,journals=keys.filter(k=>activity[k].journal).length;
+  $("headerStreak").textContent=streak;$("bigStreak").textContent=streak;$("profileStreak").textContent=streak+" days";
+  $("sessionCount").textContent=sessions;$("actionCount").textContent=actions;$("journalCount").textContent=journals;
+  $("ring").style.setProperty("--p",Math.min(100,(streak/30)*100));
+  const c=$("calendar");c.innerHTML="";
+  let d=new Date();d.setDate(d.getDate()-27);
+  for(let i=0;i<28;i++){const k=dayKey(d),x=document.createElement("div");x.className="day"+(activity[k]?.session?" done":"");x.textContent=d.getDate();c.appendChild(x);d.setDate(d.getDate()+1)}
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function resetApp(){
+  if(confirm("This will erase MANIFEST data saved on this device.")){Object.keys(localStorage).filter(k=>k.startsWith("manifest_v2_")).forEach(k=>localStorage.removeItem(k));location.reload()}
+}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;$("installButton").classList.remove("hidden")});
+$("installButton").onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$("installButton").classList.add("hidden")};
+
+if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
+if(Store.get("onboarded",false)){hydrate();show("today")}else{show("onboarding")}
+</script>
 </body>
 </html>

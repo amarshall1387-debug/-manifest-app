@@ -1,25 +1,42 @@
-# MANIFEST V1 — Installable MVP
+# MANIFEST V2 — Live Upgrade
 
-This is a mobile-first Progressive Web App (PWA) prototype.
+This is a drop-in replacement for the V1 GitHub/Vercel deployment.
 
-## Use
-Serve this folder from HTTPS or localhost, then open `index.html` through that server. A PWA needs a web manifest and a secure context to be installable in supporting browsers.
+## Replace in GitHub
+Upload these files to the ROOT of your existing `manifest-app` repository and choose **Replace** when GitHub detects matching files:
 
-### Local test
-Python:
-`python -m http.server 8000`
+- `index.html`
+- `manifest.json`
+- `sw.js`
+- `icon.svg`
 
-Then visit:
-`http://localhost:8000`
+Commit the changes. Vercel should redeploy automatically.
 
-On a phone, deploy the folder to an HTTPS host. On iPhone, use the browser's Share menu and Add to Home Screen. On supported browsers, the app can also expose an install prompt.
+## What V2 includes
+- First-run onboarding
+- Personalized goal/focus profile
+- Dynamic daily manifestations
+- Six-stage guided morning ritual
+- Repeat-after-me experience
+- Future Me letter and visualization
+- Goal-specific daily action
+- Daily journal
+- Persistent local data
+- Real session/action/journal counts
+- Streak tracking based on completed sessions
+- 28-day activity display
+- Program preview
+- Mobile PWA install support
+- Offline app shell
 
-## Included
-- Daily manifestation
-- Repeat-after-me guided session
-- Goal personalization
-- Journal persistence
-- Streak tracking
-- Installable PWA manifest
-- Service worker/offline app shell
-- App icon
+## Important
+This build intentionally does NOT expose an AI API key in browser code. The manifestation generator is personalized locally. The next production layer should add a secure server-side AI endpoint, authentication/cloud sync, push notifications, voice guidance and billing.
+
+## Test after deployment
+1. Open the live Vercel URL.
+2. Complete onboarding.
+3. Run a ritual through all six steps.
+4. Complete Today's Move.
+5. Save a journal entry.
+6. Open Progress and verify counts.
+7. Refresh the app and verify your profile/data remain.
