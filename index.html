@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080808"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="MANIFEST"><link rel="manifest" href="manifest.json">
+<title>MANIFEST — Think it. Feel it. Become it.</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">MANIFEST<span>✦</span></div><button id="installBtn" class="install-btn" hidden>INSTALL APP</button>
+    <div class="streak">🔥 <b id="streak">12</b> day streak</div>
+  </header>
+
+  <main>
+    <section id="today" class="screen active">
+      <div class="eyebrow">MONDAY • AUGUST 10</div>
+      <h1>Good evening, <span>Arin.</span></h1>
+      <p class="muted">A few intentional minutes can change the way you show up tomorrow.</p>
+
+      <div class="hero-card">
+        <div class="card-glow"></div>
+        <div class="eyebrow">TODAY'S MANIFESTATION</div>
+        <h2 id="dailyManifestation">I am capable of creating extraordinary results. I trust my decisions, take action with confidence, and recognize opportunities when they appear.</h2>
+        <button class="primary" onclick="startSession()">BEGIN MY 5-MINUTE MANIFESTATION <span>→</span></button>
+      </div>
+
+      <div class="grid2">
+        <button class="tile" onclick="showScreen('manifest')"><span>✨</span><b>Manifest</b><small>Create a personalized session</small></button>
+        <button class="tile" onclick="showScreen('journal')"><span>📓</span><b>Journal</b><small>Put your future into words</small></button>
+      </div>
+
+      <div class="quote">“The life you want begins with the person you decide to become.”</div>
+    </section>
+
+    <section id="manifest" class="screen">
+      <div class="eyebrow">YOUR INTENTION</div>
+      <h1>What are you <span>calling in?</span></h1>
+      <p class="muted">Choose what you want to focus your energy and actions on.</p>
+      <div class="choices" id="choices">
+        <button onclick="choose(this,'Financial freedom')">💰 Financial freedom</button>
+        <button onclick="choose(this,'Career success')">🚀 Career success</button>
+        <button onclick="choose(this,'Confidence')">🧠 Confidence</button>
+        <button onclick="choose(this,'Health & discipline')">💪 Health & discipline</button>
+        <button onclick="choose(this,'Love & relationships')">❤️ Love & relationships</button>
+        <button onclick="choose(this,'Peace')">🧘 Peace</button>
+        <button onclick="choose(this,'Dream lifestyle')">🏡 Dream lifestyle</button>
+        <button onclick="choose(this,'Personal growth')">🌱 Personal growth</button>
+      </div>
+      <label class="field-label">Tell me what you're working toward</label>
+      <textarea id="goal" placeholder="Example: I want financial freedom and enough passive income to control my time."></textarea>
+      <button class="primary" onclick="createManifest()">CREATE MY MANIFESTATION →</button>
+      <div id="generated" class="generated hidden"></div>
+    </section>
+
+    <section id="session" class="screen">
+      <div class="session-head"><span id="stepLabel">STEP 1 OF 5</span><span id="timer">00:30</span></div>
+      <div class="session-card">
+        <div class="orb" id="orb"></div>
+        <div class="eyebrow" id="sessionEyebrow">BREATHE</div>
+        <h2 id="sessionText">Slow down. Take a deep breath in… and let it go.</h2>
+        <p class="muted" id="sessionSub">There is nowhere else you need to be right now.</p>
+        <button class="primary" onclick="nextStep()">I'M READY <span>→</span></button>
+      </div>
+    </section>
+
+    <section id="journal" class="screen">
+      <div class="eyebrow">TODAY'S JOURNAL</div>
+      <h1>Write it as if <span>it's already yours.</span></h1>
+      <p class="muted">Describe the life you're creating. Be specific.</p>
+      <textarea class="journalbox" id="journalText" placeholder="Today I am grateful for…&#10;&#10;The person I am becoming…&#10;&#10;The life I am creating looks like…"></textarea>
+      <button class="primary" onclick="saveJournal()">SAVE ENTRY ✓</button>
+      <p id="saved" class="saved"></p>
+    </section>
+
+    <section id="streakScreen" class="screen">
+      <div class="eyebrow">YOUR PROGRESS</div>
+      <h1>Keep <span>the promise.</span></h1>
+      <div class="streak-big">🔥 <b id="streakBig">12</b><small> DAYS</small></div>
+      <div class="calendar" id="calendar"></div>
+      <div class="milestones">
+        <div><b>7</b><small>FIRST WEEK</small></div>
+        <div><b>30</b><small>LOCKED IN</small></div>
+        <div><b>100</b><small>TRANSFORMED</small></div>
+      </div>
+    </section>
+
+    <section id="profile" class="screen">
+      <div class="eyebrow">YOUR MANIFEST</div>
+      <h1>Build the <span>future you.</span></h1>
+      <div class="profile-card">
+        <div class="avatar">A</div><div><b>Arin</b><small>Manifesting intentionally</small></div>
+      </div>
+      <div class="setting"><span>🔔 Daily reminder</span><b>8:00 AM</b></div>
+      <div class="setting"><span>✨ Focus</span><b>Wealth + Growth</b></div>
+      <div class="setting"><span>🔥 Streak</span><b>12 days</b></div>
+    </section>
+  </main>
+
+  <nav class="nav">
+    <button class="navitem active" onclick="showScreen('today')">⌂<small>Today</small></button>
+    <button class="navitem" onclick="showScreen('manifest')">✦<small>Manifest</small></button>
+    <button class="navitem" onclick="showScreen('journal')">▱<small>Journal</small></button>
+    <button class="navitem" onclick="showScreen('streakScreen')">🔥<small>Streak</small></button>
+    <button class="navitem" onclick="showScreen('profile')">○<small>Profile</small></button>
+  </nav>
+</div>
+<script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

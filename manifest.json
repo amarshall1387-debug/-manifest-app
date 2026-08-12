@@ -1,0 +1,18 @@
+{
+  "name": "MANIFEST \u2014 Think it. Feel it. Become it.",
+  "short_name": "MANIFEST",
+  "description": "A daily manifestation, visualization and intentional-action companion.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#080808",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
