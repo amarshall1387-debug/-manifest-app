@@ -381,7 +381,7 @@ function generateManifest(){
   const f=$("createFocus").value;
   const text=`I am becoming the version of myself capable of creating ${subject.toLowerCase()}. I trust myself to make clear decisions, notice opportunities, and act before everything feels perfect. I practice ${f.toLowerCase()} through the choices I make today. My future is not something I wait for—it is something I build through consistent action.`;
   $("generatedManifest").classList.remove("hidden");
-  $("generatedManifest").innerHTML='<div class="eyebrow">YOUR MANIFESTATION</div><div class="future-preview">'+escapeHtml(text)+'</div><button class="secondary" style="margin-top:18px" onclick="useGenerated()">USE IN TODAY\\'S RITUAL</button>';
+  $("generatedManifest").innerHTML=`<div class="eyebrow">YOUR MANIFESTATION</div><div class="future-preview">${escapeHtml(text)}</div><button class="secondary" style="margin-top:18px" onclick="useGenerated()">USE IN TODAY'S RITUAL</button>`;
   Store.set("generatedManifest",text);
 }
 function useGenerated(){
@@ -475,7 +475,7 @@ function bootManifest(){
 window.addEventListener("load",()=>{
   bootManifest();
   if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("./sw.js?v=2.1").then(reg=>reg.update()).catch(()=>{});
+    navigator.serviceWorker.register("./sw.js?v=2.2").then(reg=>reg.update()).catch(()=>{});
   }
 });
 </script>

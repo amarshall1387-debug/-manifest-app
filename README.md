@@ -1,27 +1,31 @@
-# MANIFEST V2.1 — Safari / Blank Screen Fix
+# MANIFEST V2.2 — Button Fix
 
-This package fixes the blank content area seen after the V2 deployment.
+This fixes the JavaScript syntax error that caused the onboarding form to display while all app buttons were unresponsive.
 
-## Upload these 5 files to the ROOT of the existing GitHub repository
+## Upload to GitHub
+Replace these five files in the root of the existing manifest-app repository:
 - index.html
 - manifest.json
 - sw.js
 - icon.svg
 - README.md
 
-Replace the matching files and Commit changes. Vercel should redeploy automatically.
+Commit the changes and allow Vercel to redeploy.
 
-## Important after Vercel finishes
-Open the live URL in Safari and add `?v=21` to the end once, for example:
-`https://YOUR-APP.vercel.app/?v=21`
+## First launch after deployment
+Open:
+https://manifest-app-theta.vercel.app/?v=22
 
-This bypasses the old cached page. After the corrected app appears, normal launches can use the regular URL.
+The query string bypasses the previous cached page.
 
-## Fixes
-- Onboarding is visible even before JavaScript initializes
-- App boot is delayed until page load and protected by a fallback
-- Install prompt is null-safe
-- New service worker cache version
-- Old caches are deleted
-- Navigation requests are network-first
-- New PWA manifest ID forces an updated app identity/cache path
+## Validation completed
+The embedded JavaScript was syntax-checked with Node before packaging.
+
+## Test
+1. Enter a name.
+2. Tap Career, Confidence, Discipline, Relationships, Peace, and Wealth.
+3. Confirm the gold selected state moves to the tapped choice.
+4. Enter a future goal.
+5. Tap CREATE MY DAILY RITUAL.
+6. Test all five bottom navigation buttons.
+7. Complete a morning ritual.
