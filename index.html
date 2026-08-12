@@ -120,7 +120,7 @@
 </header>
 
 <main>
-  <section id="onboarding" class="screen">
+  <section id="onboarding" class="screen active">
     <div class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</div>
     <h1>Become the person who <span>creates the life.</span></h1>
     <p class="muted">MANIFEST combines intention, visualization, affirmations and one meaningful action every day.</p>
@@ -447,11 +447,37 @@ function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;","
 function resetApp(){
   if(confirm("This will erase MANIFEST data saved on this device.")){Object.keys(localStorage).filter(k=>k.startsWith("manifest_v2_")).forEach(k=>localStorage.removeItem(k));location.reload()}
 }
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;$("installButton").classList.remove("hidden")});
-$("installButton").onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$("installButton").classList.add("hidden")};
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();deferredPrompt=e;
+  const b=$("installButton"); if(b)b.classList.remove("hidden");
+});
+const installBtn=$("installButton");
+if(installBtn) installBtn.onclick=async()=>{
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add("hidden");
+};
 
-if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
-if(Store.get("onboarded",false)){hydrate();show("today")}else{show("onboarding")}
+function bootManifest(){
+  try{
+    if(Store.get("onboarded",false)){
+      hydrate();
+      show("today");
+    }else{
+      show("onboarding");
+    }
+  }catch(err){
+    console.error("MANIFEST boot error",err);
+    document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+    const fallback=document.getElementById("onboarding");
+    if(fallback) fallback.classList.add("active");
+  }
+}
+window.addEventListener("load",()=>{
+  bootManifest();
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.register("./sw.js?v=2.1").then(reg=>reg.update()).catch(()=>{});
+  }
+});
 </script>
 </body>
 </html>
