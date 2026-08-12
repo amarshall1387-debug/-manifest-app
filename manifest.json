@@ -1,5 +1,5 @@
 {
-  "name": "MANIFEST \u2014 The Becoming Engine",
+  "name": "MANIFEST \u2014 AI Becoming Coach",
   "short_name": "MANIFEST",
   "description": "Daily intention, visualization, affirmations and action.",
   "start_url": "./",
@@ -15,5 +15,5 @@
       "purpose": "any maskable"
     }
   ],
-  "id": "/?manifest-v=3"
+  "id": "/?manifest-v=3.1"
 }

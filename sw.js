@@ -1,4 +1,4 @@
-const CACHE="manifest-v3-becoming";
+const CACHE="manifest-v3-1-ai";
 const ASSETS=["./manifest.json","./icon.svg"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
@@ -12,6 +12,7 @@ self.addEventListener("activate",event=>{
 });
 self.addEventListener("fetch",event=>{
   if(event.request.method!=="GET")return;
+  if(new URL(event.request.url).pathname.startsWith("/api/"))return;
   const req=event.request;
   if(req.mode==="navigate"){
     event.respondWith(fetch(req,{cache:"no-store"}).catch(()=>caches.match("./index.html")));

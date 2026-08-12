@@ -118,6 +118,14 @@
     .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.proof{min-height:120px;padding:15px;border:1px solid #29261e;border-radius:16px;background:#10100f;display:flex;flex-direction:column;justify-content:space-between}.proof span{font-size:25px}.proof small{color:#777;line-height:1.35}.proof.add{border-style:dashed;color:var(--gold)}
     .reflection-option{display:block;width:100%;text-align:left;margin:8px 0;padding:14px;border-radius:13px;background:#10100f;border:1px solid #29261e;color:#ddd}.reflection-option.selected{border-color:#9a7b42;background:#19150e}
     .share-card{aspect-ratio:9/12;border-radius:24px;padding:28px;background:radial-gradient(circle at 80% 10%,#3a2d16,#0a0a09 38%);border:1px solid #463b27;display:flex;flex-direction:column;justify-content:space-between;margin:20px 0}.share-card .mark{letter-spacing:.18em;font-weight:900}.share-card .share-score{font:64px Georgia,serif;color:var(--gold)}.share-card .share-quote{font:26px/1.25 Georgia,serif}.share-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.share-stats div{border-top:1px solid #393329;padding-top:10px}.share-stats b{display:block;color:var(--gold)}.share-stats small{font-size:8px;color:#888}
+
+    .ai-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid #584827;border-radius:99px;background:#17130c;color:var(--gold2);font-size:9px;font-weight:900;letter-spacing:.09em}
+    .ai-badge:before{content:"✦";color:var(--gold)}
+    .ai-loading{opacity:.65;pointer-events:none}
+    .ai-note{font-size:10px;color:#777;line-height:1.45;margin-top:10px}
+    .affirm-stack{display:grid;gap:9px;margin:18px 0}.affirm{padding:15px;border:1px solid #2c2921;border-radius:15px;background:#10100f;font-family:Georgia,serif;font-size:18px;line-height:1.4}
+    .coach-box{padding:19px;border:1px solid #3a3324;border-radius:20px;background:#11100d;margin:18px 0}.coach-answer{white-space:pre-wrap;line-height:1.65;color:#ddd5c8}
+    .future-message{border:1px solid #443925;border-radius:20px;padding:20px;background:linear-gradient(145deg,#17130c,#0d0c0a);margin:18px 0}.future-message p{font-family:Georgia,serif;font-size:20px;line-height:1.45;margin:8px 0}
 </style>
 </head>
 <body>
@@ -156,6 +164,11 @@
     </div>
     <div class="eyebrow">TODAY'S IDENTITY</div>
     <div class="identity-card"><b id="todayIdentity">I am becoming someone who follows through.</b></div>
+    <div class="row" style="margin-bottom:14px">
+      <button class="secondary" id="aiDailyButton" onclick="loadAIDaily(true)">✦ PERSONALIZE WITH AI</button>
+      <button class="ghost" onclick="show('coach')">ASK MANIFEST</button>
+    </div>
+    <div class="ai-note" id="aiDailyStatus">Preset experience is active. AI personalization loads securely through your MANIFEST server.</div>
 
     <div class="hero">
       <div class="eyebrow">TODAY'S MANIFESTATION</div>
@@ -202,7 +215,7 @@
     <div class="eyebrow">FUTURE ME</div>
     <h1>Rehearse the life <span>before you live it.</span></h1>
     <p class="muted">Write from the perspective of yourself five years from now. Be specific enough that you can picture it.</p>
-    <div class="field"><label>LETTER FROM FUTURE YOU</label><textarea id="futureLetter" class="journal" placeholder="It's August 12, 2031. I wake up and..."></textarea></div>
+    <div id="aiFutureMessageWrap" class="future-message hidden"><div class="ai-badge">MESSAGE FROM YOUR FUTURE SELF</div><p id="aiFutureMessage"></p></div><div class="field"><label>LETTER FROM FUTURE YOU</label><textarea id="futureLetter" class="journal" placeholder="It's August 12, 2031. I wake up and..."></textarea></div>
     <button class="primary" onclick="saveFuture()">SAVE FUTURE ME ✓</button>
     <button class="secondary" style="margin-top:9px" onclick="buildFuturePrompt()">HELP ME START</button>
     <div id="futurePreview" class="future-card hidden"><div class="eyebrow">YOUR FUTURE</div><div class="future-preview" id="futurePreviewText"></div></div>
@@ -224,10 +237,29 @@
     <div class="eyebrow">DAILY JOURNAL</div>
     <h1>Give your mind <span>direction.</span></h1>
     <div class="field"><label>GRATITUDE</label><textarea id="gratitude" placeholder="Three things that are good right now..."></textarea></div>
-    <div class="field"><label>WHAT AM I CALLING IN?</label><textarea id="callingIn" placeholder="What am I creating or becoming?"></textarea></div>
+    <div id="aiJournalPromptWrap" class="future-message hidden"><div class="ai-badge">AI JOURNAL PROMPT</div><p id="aiJournalPrompt"></p></div><div class="field"><label>WHAT AM I CALLING IN?</label><textarea id="callingIn" placeholder="What am I creating or becoming?"></textarea></div>
     <div class="field"><label>WHAT WOULD FUTURE ME DO TODAY?</label><textarea id="futureAction" placeholder="One decision or action..."></textarea></div>
     <button class="primary" onclick="saveJournal()">SAVE TODAY'S ENTRY ✓</button>
     <p class="tiny" id="journalStatus"></p>
+  </section>
+
+  <section id="coach" class="screen">
+    <div class="eyebrow">ASK MANIFEST</div>
+    <h1>Your <span>Becoming Coach.</span></h1>
+    <p class="muted">Ask about a goal, obstacle, decision, habit, or the next action you should take.</p>
+    <div class="field"><label>WHAT'S ON YOUR MIND?</label><textarea id="coachQuestion" placeholder="Example: I keep procrastinating on starting my side business. What's the smallest meaningful move I can make today?"></textarea></div>
+    <button class="primary" id="coachButton" onclick="askManifest()">ASK MANIFEST ✦</button>
+    <div id="coachResponse" class="coach-box hidden"><div class="ai-badge">MANIFEST AI</div><div id="coachAnswer" class="coach-answer" style="margin-top:14px"></div></div>
+    <p class="ai-note">MANIFEST is a personal-development tool, not professional medical, legal, financial, or mental-health advice.</p>
+  </section>
+
+  <section id="aiDaily" class="screen">
+    <div class="eyebrow">YOUR AI RITUAL</div><h1>Built for <span>today.</span></h1>
+    <div class="future-message"><div class="ai-badge">TODAY'S IDENTITY</div><p id="aiIdentity"></p></div>
+    <div class="future-message"><div class="ai-badge">TODAY'S MANIFESTATION</div><p id="aiManifestation"></p></div>
+    <div class="eyebrow">REPEAT AFTER ME</div><div id="aiAffirmations" class="affirm-stack"></div>
+    <div class="future-message"><div class="ai-badge">VISUALIZE</div><p id="aiVisualization"></p></div>
+    <button class="primary" onclick="applyAIDaily()">USE THIS AS TODAY'S RITUAL →</button>
   </section>
 
   <section id="proof" class="screen">
@@ -402,13 +434,20 @@ function hydrate(){
   const j=Store.get("journalDraft",{gratitude:"",callingIn:"",futureAction:""});
   $("gratitude").value=j.gratitude||"";$("callingIn").value=j.callingIn||"";$("futureAction").value=j.futureAction||"";
   if(Store.get("futureLetter","")) showFuturePreview();
-  renderProgress(); renderAction(); renderBecoming(); renderProof();
+  renderProgress(); renderAction(); renderBecoming(); renderProof(); hydrateAI();
 }
 function currentManifest(){return $("dailyManifest").textContent}
 function startRitual(){ritualIndex=0;renderRitual();show("ritual")}
 function renderRitual(){
   let s=[...ritualSteps[ritualIndex]];
-  if(ritualIndex===2)s[1]=currentManifest();
+  if(ritualIndex===2){
+    const ai=Store.get("aiActiveDaily",null);
+    s[1]=ai?.affirmations?.length ? ai.affirmations.join("  •  ") : currentManifest();
+  }
+  if(ritualIndex===3){
+    const ai=Store.get("aiActiveDaily",null);
+    if(ai?.visualization)s[1]=ai.visualization;
+  }
   $("ritualLabel").textContent=s[0];$("ritualText").textContent=s[1];$("ritualSub").textContent=s[2];
   $("ritualProgress").style.width=((ritualIndex+1)/ritualSteps.length*100)+"%";
   $("ritualNext").textContent=ritualIndex===ritualSteps.length-1?"COMPLETE MY RITUAL ✓":"I'M READY →";
@@ -457,7 +496,9 @@ function actionCopy(){
   }[p.focus] || ["Take one aligned action.","Make the next move visible."];
 }
 function renderAction(){
-  const [a,b]=actionCopy();$("actionTitle").textContent=a;$("actionBody").textContent=b;
+  const ai=Store.get("aiActiveDaily",null);
+  if(ai){$("actionTitle").textContent=ai.action_title;$("actionBody").textContent=ai.action_detail}
+  else{const [a,b]=actionCopy();$("actionTitle").textContent=a;$("actionBody").textContent=b;}
   const done=!!(Store.get("activity",{})[dayKey()]||{}).action;
   $("actionCard").classList.toggle("completed",done);$("actionButton").textContent=done?"COMPLETED TODAY ✓":"I DID IT ✓";
 }
@@ -489,6 +530,73 @@ function renderProgress(){
   for(let i=0;i<28;i++){const k=dayKey(d),x=document.createElement("div");x.className="day"+(activity[k]?.session?" done":"");x.textContent=d.getDate();c.appendChild(x);d.setDate(d.getDate()+1)}
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+
+function manifestContext(){
+  const p=Store.get("profile",{name:"Friend",focus:"Wealth",goal:""});
+  const a=Store.get("activity",{}), keys=Object.keys(a).sort().reverse(), recent=keys.map(k=>a[k]).find(Boolean)||{};
+  const proofs=Store.get("proofs",[]).slice(0,8).map(x=>x.text);
+  const m=becomingMetrics();
+  return {
+    name:p.name,focus:p.focus,goal:p.goal,score:m.score,
+    recentAction:recent.action ? "Completed a daily action recently." : "No recent completed daily action is recorded.",
+    recentReflection:recent.eveningWin || "",
+    tomorrow:recent.tomorrow || "",
+    proofs
+  };
+}
+function aiCacheKey(){return "aiDaily_"+dayKey()}
+async function loadAIDaily(force=false){
+  const btn=$("aiDailyButton"),status=$("aiDailyStatus");
+  const cached=Store.get(aiCacheKey(),null);
+  if(cached && !force){renderAIDaily(cached);return cached}
+  if(btn){btn.classList.add("ai-loading");btn.textContent="PERSONALIZING…"}
+  if(status)status.textContent="MANIFEST AI is building today's experience…";
+  try{
+    const r=await fetch("/api/manifest",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"daily",context:manifestContext()})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"AI request failed");
+    Store.set(aiCacheKey(),d.daily);renderAIDaily(d.daily);
+    if(status)status.textContent="AI-personalized experience is active for today.";
+    show("aiDaily");return d.daily;
+  }catch(e){
+    if(status)status.textContent="AI is unavailable right now. Your preset MANIFEST experience still works.";
+    toast(e.message||"AI unavailable");
+  }finally{
+    if(btn){btn.classList.remove("ai-loading");btn.textContent="✦ PERSONALIZE WITH AI"}
+  }
+}
+function renderAIDaily(x){
+  if(!x)return;
+  $("aiIdentity").textContent=x.identity;$("aiManifestation").textContent=x.manifestation;$("aiVisualization").textContent=x.visualization;
+  $("aiAffirmations").innerHTML="";(x.affirmations||[]).forEach(t=>{const d=document.createElement("div");d.className="affirm";d.textContent=t;$("aiAffirmations").appendChild(d)});
+  $("aiJournalPrompt").textContent=x.journal_prompt;$("aiJournalPromptWrap").classList.remove("hidden");
+  $("aiFutureMessage").textContent=x.future_message;$("aiFutureMessageWrap").classList.remove("hidden");
+}
+function applyAIDaily(){
+  const x=Store.get(aiCacheKey(),null);if(!x)return;
+  $("todayIdentity").textContent=x.identity;$("dailyManifest").textContent=x.manifestation;
+  $("actionTitle").textContent=x.action_title;$("actionBody").textContent=x.action_detail;
+  Store.set("aiActiveDaily",x);toast("AI ritual applied.");show("today");
+}
+async function askManifest(){
+  const q=$("coachQuestion").value.trim();if(!q){toast("Ask MANIFEST a question first.");return}
+  const b=$("coachButton");b.classList.add("ai-loading");b.textContent="THINKING…";
+  try{
+    const r=await fetch("/api/manifest",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mode:"coach",question:q,context:manifestContext()})});
+    const d=await r.json();if(!r.ok)throw new Error(d.error||"AI request failed");
+    $("coachAnswer").textContent=d.answer;$("coachResponse").classList.remove("hidden");
+  }catch(e){toast(e.message||"MANIFEST AI unavailable")}
+  finally{b.classList.remove("ai-loading");b.textContent="ASK MANIFEST ✦"}
+}
+function hydrateAI(){
+  const x=Store.get(aiCacheKey(),null);if(x){
+    renderAIDaily(x);
+    const active=Store.get("aiActiveDaily",null);
+    if(active){$("todayIdentity").textContent=active.identity;$("dailyManifest").textContent=active.manifestation;$("actionTitle").textContent=active.action_title;$("actionBody").textContent=active.action_detail}
+    $("aiDailyStatus").textContent="Your AI-personalized experience is ready for today.";
+  }
+}
 
 const identities={
  Wealth:["I am a disciplined builder of wealth.","I create value before I chase rewards.","I make money decisions my future self respects."],
@@ -571,7 +679,7 @@ function bootManifest(){
 window.addEventListener("load",()=>{
   bootManifest();
   if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("./sw.js?v=3.0").then(reg=>reg.update()).catch(()=>{});
+    navigator.serviceWorker.register("./sw.js?v=3.1").then(reg=>reg.update()).catch(()=>{});
   }
 });
 </script>
