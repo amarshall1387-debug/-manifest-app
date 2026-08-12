@@ -1,31 +1,29 @@
-# MANIFEST V2.2 — Button Fix
+# MANIFEST V3 — The Becoming Engine
 
-This fixes the JavaScript syntax error that caused the onboarding form to display while all app buttons were unresponsive.
+## New in V3
+- Becoming Score
+- Four score dimensions: Mindset, Action, Consistency, Reflection
+- Daily identity
+- Proof Board
+- Evening Check-in
+- Shareable progress card + native share sheet
+- Existing V2.2 onboarding, rituals, actions, journaling, progress and PWA behavior preserved
 
-## Upload to GitHub
-Replace these five files in the root of the existing manifest-app repository:
-- index.html
-- manifest.json
-- sw.js
-- icon.svg
-- README.md
+## Deploy
+Upload all five files to the root of your existing GitHub manifest-app repository and replace matching files:
+index.html, manifest.json, sw.js, icon.svg, README.md
 
-Commit the changes and allow Vercel to redeploy.
+Commit changes. After Vercel redeploys, first open:
+https://manifest-app-theta.vercel.app/?v=30
 
-## First launch after deployment
-Open:
-https://manifest-app-theta.vercel.app/?v=22
+## Test before normal use
+1. Confirm your existing profile loads.
+2. Confirm Becoming Score and Today's Identity appear.
+3. Complete ritual.
+4. Complete Today's Move.
+5. Add Proof Board evidence.
+6. Complete Evening Check-in.
+7. Open Progress > Create Share Card.
+8. Refresh and confirm data persists.
 
-The query string bypasses the previous cached page.
-
-## Validation completed
-The embedded JavaScript was syntax-checked with Node before packaging.
-
-## Test
-1. Enter a name.
-2. Tap Career, Confidence, Discipline, Relationships, Peace, and Wealth.
-3. Confirm the gold selected state moves to the tapped choice.
-4. Enter a future goal.
-5. Tap CREATE MY DAILY RITUAL.
-6. Test all five bottom navigation buttons.
-7. Complete a morning ritual.
+JavaScript syntax was validated with Node before packaging.

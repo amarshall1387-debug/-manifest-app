@@ -110,7 +110,15 @@
     .tiny{font-size:10px;color:#6e6a62}
     .completed{border-color:#416044!important;background:#0e1710!important}
     .install{position:fixed;right:14px;bottom:100px;z-index:75;border:1px solid #5c4b2b;border-radius:99px;background:#15120c;color:var(--gold2);padding:10px 13px;font-size:10px;font-weight:900}
-  </style>
+  
+    .becoming-hero{padding:22px;border:1px solid #3b3323;border-radius:22px;background:linear-gradient(145deg,#19160f,#0d0c0a);margin:18px 0}
+    .scoreline{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}.scorebig{font-size:54px;line-height:.9;color:var(--gold);font-family:Georgia,serif}.scorebig small{font:10px Inter,sans-serif;letter-spacing:.12em;color:#777;display:block;margin-top:10px}
+    .identity-card{padding:18px;border-left:3px solid var(--gold);background:#10100e;border-radius:0 16px 16px 0;margin:15px 0 20px}.identity-card b{font-family:Georgia,serif;font-size:21px;line-height:1.35}
+    .scoreparts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:17px}.scorepart{text-align:center;border:1px solid #27241d;border-radius:12px;padding:10px 5px;background:#0d0d0c}.scorepart b{display:block;color:var(--gold);font-size:17px}.scorepart small{font-size:8px;color:#777}
+    .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.proof{min-height:120px;padding:15px;border:1px solid #29261e;border-radius:16px;background:#10100f;display:flex;flex-direction:column;justify-content:space-between}.proof span{font-size:25px}.proof small{color:#777;line-height:1.35}.proof.add{border-style:dashed;color:var(--gold)}
+    .reflection-option{display:block;width:100%;text-align:left;margin:8px 0;padding:14px;border-radius:13px;background:#10100f;border:1px solid #29261e;color:#ddd}.reflection-option.selected{border-color:#9a7b42;background:#19150e}
+    .share-card{aspect-ratio:9/12;border-radius:24px;padding:28px;background:radial-gradient(circle at 80% 10%,#3a2d16,#0a0a09 38%);border:1px solid #463b27;display:flex;flex-direction:column;justify-content:space-between;margin:20px 0}.share-card .mark{letter-spacing:.18em;font-weight:900}.share-card .share-score{font:64px Georgia,serif;color:var(--gold)}.share-card .share-quote{font:26px/1.25 Georgia,serif}.share-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.share-stats div{border-top:1px solid #393329;padding-top:10px}.share-stats b{display:block;color:var(--gold)}.share-stats small{font-size:8px;color:#888}
+</style>
 </head>
 <body>
 <div class="app">
@@ -141,6 +149,14 @@
     <h1><span id="greeting">Good morning</span>, <span id="todayName">friend.</span></h1>
     <p class="muted">You don't need the whole path. You need today's decision.</p>
 
+    <div class="becoming-hero">
+      <div class="eyebrow">THE BECOMING ENGINE™</div>
+      <div class="scoreline"><div><div class="scorebig"><span id="todayScore">0</span><small>BECOMING SCORE</small></div></div><div class="tiny">Built from your rituals,<br>actions & reflection.</div></div>
+      <div class="scoreparts"><div class="scorepart"><b id="mindScore">0</b><small>MINDSET</small></div><div class="scorepart"><b id="moveScore">0</b><small>ACTION</small></div><div class="scorepart"><b id="consScore">0</b><small>CONSISTENCY</small></div><div class="scorepart"><b id="reflectScore">0</b><small>REFLECTION</small></div></div>
+    </div>
+    <div class="eyebrow">TODAY'S IDENTITY</div>
+    <div class="identity-card"><b id="todayIdentity">I am becoming someone who follows through.</b></div>
+
     <div class="hero">
       <div class="eyebrow">TODAY'S MANIFESTATION</div>
       <h2 id="dailyManifest">I trust myself to recognize opportunity and take action before doubt takes over.</h2>
@@ -151,7 +167,8 @@
       <button class="quick" onclick="show('create')"><span class="icon">✨</span><b>Create</b><small>Build a goal-specific manifestation</small></button>
       <button class="quick" onclick="show('future')"><span class="icon">🔮</span><b>Future Me</b><small>Rehearse the life you're creating</small></button>
       <button class="quick" onclick="show('action')"><span class="icon">🎯</span><b>Today's Move</b><small>Turn intention into movement</small></button>
-      <button class="quick" onclick="show('journal')"><span class="icon">📓</span><b>Journal</b><small>Capture gratitude and direction</small></button>
+      <button class="quick" onclick="show('journal')"><span class="icon">📓</span><b>Journal</b><small>Capture gratitude and direction</small></button><button class="quick" onclick="show('proof')"><span class="icon">🏆</span><b>Proof Board</b><small>Collect evidence you're becoming</small></button>
+      <button class="quick" onclick="show('evening')"><span class="icon">🌙</span><b>Evening Check-in</b><small>Close the loop on today</small></button>
     </div>
     <div class="quote">“Your future changes when today's choices start matching tomorrow's vision.”</div>
   </section>
@@ -213,6 +230,34 @@
     <p class="tiny" id="journalStatus"></p>
   </section>
 
+  <section id="proof" class="screen">
+    <div class="eyebrow">PROOF BOARD</div><h1>Belief grows from <span>evidence.</span></h1>
+    <p class="muted">Vision boards show what you want. Your Proof Board records evidence that you're becoming capable of creating it.</p>
+    <div class="field"><label>WHAT DID YOU PROVE?</label><input id="proofText" placeholder="Example: I invested instead of impulse spending."></div>
+    <div class="field"><label>CATEGORY</label><select id="proofCategory"><option>🏆 Win</option><option>💰 Money</option><option>🔥 Discipline</option><option>🚀 Career</option><option>❤️ Relationship</option><option>🧠 Confidence</option></select></div>
+    <button class="primary" onclick="addProof()">ADD TO MY PROOF BOARD +</button>
+    <div class="eyebrow" style="margin-top:26px">MY EVIDENCE</div><div id="proofGrid" class="proof-grid"></div>
+  </section>
+
+  <section id="evening" class="screen">
+    <div class="eyebrow">EVENING CHECK-IN</div><h1>Did today match <span>who you're becoming?</span></h1>
+    <p class="muted">No guilt. No perfection. Just useful feedback for tomorrow.</p>
+    <div class="field"><label>DID YOU LIVE TODAY'S IDENTITY?</label>
+      <button class="reflection-option" data-reflect="3">🔥 Yes — I showed up</button>
+      <button class="reflection-option" data-reflect="2">👍 Mostly — some wins</button>
+      <button class="reflection-option" data-reflect="1">↗ Not yet — but I learned</button>
+    </div>
+    <div class="field"><label>WHAT PROVED YOU'RE MOVING FORWARD?</label><textarea id="eveningWin" placeholder="One win, decision, boundary, conversation, or action..."></textarea></div>
+    <div class="field"><label>WHAT WILL YOU DO DIFFERENTLY TOMORROW?</label><textarea id="tomorrowMove" placeholder="Keep it specific and small..."></textarea></div>
+    <button class="primary" onclick="saveEvening()">CLOSE OUT MY DAY ✓</button>
+  </section>
+
+  <section id="share" class="screen">
+    <div class="eyebrow">SHARE YOUR PROGRESS</div><h1>Make becoming <span>visible.</span></h1>
+    <div class="share-card" id="shareCard"><div><div class="mark">MANIFEST ✦</div><div class="eyebrow" style="margin-top:35px">I'M BECOMING</div><div class="share-score" id="shareScore">0</div><div class="tiny">BECOMING SCORE</div></div><div class="share-quote">“I'm becoming the person I said I would be.”</div><div class="share-stats"><div><b id="shareSessions">0</b><small>RITUALS</small></div><div><b id="shareActions">0</b><small>ACTIONS</small></div><div><b id="shareProof">0</b><small>PROOFS</small></div></div></div>
+    <button class="primary" onclick="shareProgress()">SHARE MY PROGRESS ↗</button><p class="tiny">On supported phones this opens the native share sheet. You can also screenshot the card.</p>
+  </section>
+
   <section id="progress" class="screen">
     <div class="eyebrow">YOUR PROGRESS</div>
     <h1>Keep the <span>promise.</span></h1>
@@ -223,7 +268,7 @@
       <div class="stat"><b id="journalCount">0</b><small>JOURNALS</small></div>
     </div>
     <div class="eyebrow">LAST 28 DAYS</div><div id="calendar" class="days"></div>
-    <div class="badge-row"><div class="badge"><b>7</b><small>FIRST WEEK</small></div><div class="badge"><b>30</b><small>LOCKED IN</small></div><div class="badge"><b>100</b><small>TRANSFORMED</small></div></div>
+    <button class="secondary" style="margin-bottom:18px" onclick="show('share')">CREATE SHARE CARD ↗</button><div class="badge-row"><div class="badge"><b>7</b><small>FIRST WEEK</small></div><div class="badge"><b>30</b><small>LOCKED IN</small></div><div class="badge"><b>100</b><small>TRANSFORMED</small></div></div>
   </section>
 
   <section id="programs" class="screen">
@@ -357,7 +402,7 @@ function hydrate(){
   const j=Store.get("journalDraft",{gratitude:"",callingIn:"",futureAction:""});
   $("gratitude").value=j.gratitude||"";$("callingIn").value=j.callingIn||"";$("futureAction").value=j.futureAction||"";
   if(Store.get("futureLetter","")) showFuturePreview();
-  renderProgress(); renderAction();
+  renderProgress(); renderAction(); renderBecoming(); renderProof();
 }
 function currentManifest(){return $("dailyManifest").textContent}
 function startRitual(){ritualIndex=0;renderRitual();show("ritual")}
@@ -373,7 +418,7 @@ function nextRitual(){
   if(ritualIndex<ritualSteps.length-1){ritualIndex++;renderRitual();return}
   const today=dayKey(); let activity=Store.get("activity",{});
   if(!activity[today])activity[today]={}; activity[today].session=true; Store.set("activity",activity);
-  toast("Ritual complete. Keep the promise."); renderProgress(); show("today");
+  toast("Ritual complete. Keep the promise."); renderProgress(); renderBecoming(); show("today");
 }
 function generateManifest(){
   const p=Store.get("profile",{name:"Friend",focus:"Wealth",goal:""});
@@ -417,12 +462,12 @@ function renderAction(){
   $("actionCard").classList.toggle("completed",done);$("actionButton").textContent=done?"COMPLETED TODAY ✓":"I DID IT ✓";
 }
 function completeAction(){
-  let a=Store.get("activity",{}); const today=dayKey();a[today]=a[today]||{};a[today].action=true;Store.set("activity",a);renderAction();renderProgress();toast("Action logged.");
+  let a=Store.get("activity",{}); const today=dayKey();a[today]=a[today]||{};a[today].action=true;Store.set("activity",a);renderAction();renderProgress();renderBecoming();toast("Action logged.");
 }
 function saveJournal(){
   Store.set("journalDraft",{gratitude:$("gratitude").value,callingIn:$("callingIn").value,futureAction:$("futureAction").value});
   let a=Store.get("activity",{}),today=dayKey();a[today]=a[today]||{};a[today].journal=true;Store.set("activity",a);
-  $("journalStatus").textContent="Saved for today.";renderProgress();toast("Journal saved.");
+  $("journalStatus").textContent="Saved for today.";renderProgress();renderBecoming();toast("Journal saved.");
 }
 function streakFrom(activity){
   let streak=0,d=new Date();
@@ -444,6 +489,57 @@ function renderProgress(){
   for(let i=0;i<28;i++){const k=dayKey(d),x=document.createElement("div");x.className="day"+(activity[k]?.session?" done":"");x.textContent=d.getDate();c.appendChild(x);d.setDate(d.getDate()+1)}
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+const identities={
+ Wealth:["I am a disciplined builder of wealth.","I create value before I chase rewards.","I make money decisions my future self respects."],
+ Career:["I create visible value and take initiative.","I lead before I need permission.","I communicate with clarity and confidence."],
+ Confidence:["I trust myself before I have perfect certainty.","I take up the space my goals require.","I act before confidence feels complete."],
+ Discipline:["I keep promises to myself.","I choose consistency over negotiation.","I finish what matters before comfort wins."],
+ Relationships:["I create connection through presence and honesty.","I communicate clearly instead of assuming.","I invest in people who make life richer."],
+ Peace:["I protect my attention from unnecessary noise.","I respond with clarity instead of reacting.","I can pursue more without rushing through today."]
+};
+function todayIdentityText(){
+ const p=Store.get("profile",{focus:"Wealth"}),arr=identities[p.focus]||identities.Wealth;
+ const idx=Math.floor(new Date().setHours(0,0,0,0)/86400000)%arr.length;return arr[idx];
+}
+function becomingMetrics(){
+ const a=Store.get("activity",{}), keys=Object.keys(a), last7=[];
+ let d=new Date();for(let i=0;i<7;i++){last7.push(dayKey(d));d.setDate(d.getDate()-1)}
+ const sessions=keys.filter(k=>a[k]?.session).length, actions=keys.filter(k=>a[k]?.action).length, journals=keys.filter(k=>a[k]?.journal).length, reflections=keys.filter(k=>a[k]?.reflection).length;
+ const recentSessions=last7.filter(k=>a[k]?.session).length,recentActions=last7.filter(k=>a[k]?.action).length,recentReflect=last7.filter(k=>a[k]?.reflection).length;
+ const mindset=Math.min(100,30+sessions*4+journals*3);
+ const action=Math.min(100,20+actions*6);
+ const consistency=Math.round(recentSessions/7*100);
+ const reflection=Math.min(100,20+reflections*8+recentReflect*4);
+ const score=Math.round(mindset*.25+action*.35+consistency*.25+reflection*.15);
+ return {score,mindset,action,consistency,reflection,sessions,actions,journals,proofs:Store.get("proofs",[]).length};
+}
+function renderBecoming(){
+ const m=becomingMetrics();$("todayScore").textContent=m.score;$("mindScore").textContent=m.mindset;$("moveScore").textContent=m.action;$("consScore").textContent=m.consistency;$("reflectScore").textContent=m.reflection;$("todayIdentity").textContent=todayIdentityText();
+ if($("shareScore")){$("shareScore").textContent=m.score;$("shareSessions").textContent=m.sessions;$("shareActions").textContent=m.actions;$("shareProof").textContent=m.proofs}
+}
+function addProof(){
+ const text=$("proofText").value.trim();if(!text){toast("Add a win first.");return}
+ const proofs=Store.get("proofs",[]);proofs.unshift({text,category:$("proofCategory").value,date:new Date().toISOString()});Store.set("proofs",proofs);$("proofText").value="";renderProof();renderBecoming();toast("Proof added.");
+}
+function renderProof(){
+ const proofs=Store.get("proofs",[]),g=$("proofGrid");if(!g)return;g.innerHTML="";
+ if(!proofs.length){g.innerHTML='<div class="proof add"><span>＋</span><small>Your first proof can be tiny. A kept promise counts.</small></div>';return}
+ proofs.slice(0,20).forEach(p=>{const x=document.createElement("div");x.className="proof";x.innerHTML=`<span>${escapeHtml(p.category.split(" ")[0])}</span><small>${escapeHtml(p.text)}</small>`;g.appendChild(x)})
+}
+document.querySelectorAll(".reflection-option").forEach(b=>b.onclick=()=>{document.querySelectorAll(".reflection-option").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
+function saveEvening(){
+ const sel=document.querySelector(".reflection-option.selected");if(!sel){toast("Choose how today felt.");return}
+ let a=Store.get("activity",{}),k=dayKey();a[k]=a[k]||{};a[k].reflection=+sel.dataset.reflect;a[k].eveningWin=$("eveningWin").value.trim();a[k].tomorrow=$("tomorrowMove").value.trim();Store.set("activity",a);
+ if(a[k].eveningWin){const proofs=Store.get("proofs",[]);proofs.unshift({text:a[k].eveningWin,category:"🏆 Reflection",date:new Date().toISOString()});Store.set("proofs",proofs)}
+ renderBecoming();renderProof();toast("Day closed. Tomorrow starts clearer.");show("today");
+}
+async function shareProgress(){
+ const m=becomingMetrics(),p=Store.get("profile",{name:"I"});
+ const text=`${p.name}'s MANIFEST Becoming Score: ${m.score}\\n🔥 ${m.sessions} rituals · 🎯 ${m.actions} actions · 🏆 ${m.proofs} proofs\\nI'm becoming the person I said I would be.`;
+ if(navigator.share){try{await navigator.share({title:"My MANIFEST Progress",text})}catch(e){}}else{try{await navigator.clipboard.writeText(text);toast("Progress copied.")}catch(e){toast("Screenshot your card to share.")}}
+}
+
 function resetApp(){
   if(confirm("This will erase MANIFEST data saved on this device.")){Object.keys(localStorage).filter(k=>k.startsWith("manifest_v2_")).forEach(k=>localStorage.removeItem(k));location.reload()}
 }
@@ -475,7 +571,7 @@ function bootManifest(){
 window.addEventListener("load",()=>{
   bootManifest();
   if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("./sw.js?v=2.2").then(reg=>reg.update()).catch(()=>{});
+    navigator.serviceWorker.register("./sw.js?v=3.0").then(reg=>reg.update()).catch(()=>{});
   }
 });
 </script>

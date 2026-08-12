@@ -1,4 +1,4 @@
-const CACHE="manifest-v2-2-buttonfix";
+const CACHE="manifest-v3-becoming";
 const ASSETS=["./manifest.json","./icon.svg"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
